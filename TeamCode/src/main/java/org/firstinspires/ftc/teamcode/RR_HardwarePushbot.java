@@ -50,40 +50,28 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Servo channel:  Servo to open left claw:  "left_hand"
  * Servo channel:  Servo to open right claw: "right_hand"
  */
-public class RR_HardwarePushbot
-{
+public class RR_HardwarePushbot {
     /* Public OpMode members. */
     // Locomotion
-    public DcMotor leftFrontDrive   = null;
-    public DcMotor rightFrontDrive  = null;
-    public DcMotor leftBackDrive   = null;
-    public DcMotor rightBackDrive  = null;
-    public DcMotor brickLift  = null;
-    //public DcMotor  bricklift2  =null;
+    public DcMotor leftFrontDrive = null;
+    public DcMotor rightFrontDrive = null;
+    public DcMotor leftBackDrive = null;
+    public DcMotor rightBackDrive = null;
+
     // Missions
-    //public DcMotor  linearLift  = null;
-    //public DcMotor  armElbow   = null;
-    //public DcMotor  armBase  = null;
-    //public DigitalChannel armBaseLimit = null;
-
-    // RON TEST - UNDEFINED VARIABLES
-    public Servo Foundation_Pull_1 = null;
+    public DcMotor brickLift = null;
     public Servo brickClaw = null;
-  //  public Servo Foundation_Pull_2 = null;
-    //public Servo Foundation_Pull = null;
+    public Servo CapstoneDown = null;
+    public Servo CapstoneGo = null;
 
-    //public Servo    relicDrop = null;
-    //public Servo    armAClaw = null;
-    //public Servo    armAKnuckle = null;
-
-    public int      linearLiftDistance = 170;
+    public int linearLiftDistance = 170;
 
     /* local OpMode members. */
-    HardwareMap hwMap           =  null;
-    private ElapsedTime period  = new ElapsedTime();
+    HardwareMap hwMap = null;
+    private ElapsedTime period = new ElapsedTime();
 
     /* Constructor */
-    public RR_HardwarePushbot(){
+    public RR_HardwarePushbot() {
 
     }
 
@@ -93,26 +81,17 @@ public class RR_HardwarePushbot
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        leftFrontDrive  = hwMap.get(DcMotor.class, "left_Front_Drive");
+        leftFrontDrive = hwMap.get(DcMotor.class, "left_Front_Drive");
         rightFrontDrive = hwMap.get(DcMotor.class, "right_Front_Drive");
-        leftBackDrive  = hwMap.get(DcMotor.class, "left_Back_Drive");
+        leftBackDrive = hwMap.get(DcMotor.class, "left_Back_Drive");
         rightBackDrive = hwMap.get(DcMotor.class, "right_Back_Drive");
         brickLift = hwMap.get(DcMotor.class, "brick_Lift");
-//        bricklift2  = hwMap.get(DcMotor.class, "brick_Lift2");
-        Foundation_Pull_1 = hwMap.get(Servo.class, "Foundation_Pull_1");
-        brickClaw = hwMap.get(Servo.class, "brick_Claw");
-       // Foundation_Pull_2 = hwMap.get(Servo.class, "Foundation_Pull_2");
-
-        //linearLift = hwMap.get(DcMotor.class, "linear_Lift");
-
 
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
         brickLift.setDirection(DcMotor.Direction.REVERSE);
-        //bricklift2.setDirection(DcMotor.Direction.REVERSE);
-        //linearLift.setDirection(DcMotor.Direction.REVERSE);
 
         // Set all motors to zero power
         leftFrontDrive.setPower(0);
@@ -120,8 +99,6 @@ public class RR_HardwarePushbot
         leftBackDrive.setPower(0);
         rightBackDrive.setPower(0);
         brickLift.setPower(0);
-        //bricklift2.setPower(0);
-        //linearLift.setPower(0);
 
 
         // Set all motors to run without encoders.
@@ -131,42 +108,22 @@ public class RR_HardwarePushbot
         leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         brickLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-      //  bricklift2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //linearLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
         // Define and initialize ALL installed servos.
-        //relicDrop = hwMap.get(Servo.class, "relic_Drop");
-        //relicDrop.setPosition(1.00);
-
-        // Set arm servos and motors
-        //armAClaw = hwMap.get(Servo.class, "arm_A_Claw");
-        //armAKnuckle = hwMap.get(Servo.class, "arm_A_Knuckle");
-
-        //armAClaw.setPosition(0);
-        //armAKnuckle.setPosition(1);
-
-        //armBase  = hwMap.get( DcMotor.class, "arm_Base" );
-        //armElbow = hwMap.get( DcMotor.class, "arm_Elbow" );
-        //armBaseLimit = hwMap.get(DigitalChannel.class, "arm_Base_Limit");
-
-        //setArmMotor( armBase, DcMotorSimple.Direction.FORWARD );
-        //setArmMotor( armElbow, DcMotorSimple.Direction.REVERSE );
+        brickClaw = hwMap.get(Servo.class, "brick_Claw");
+        CapstoneDown = hwMap.get(Servo.class, "CapstoneDown");
+        CapstoneGo = hwMap.get(Servo.class, "CapstoneGo");
 
     }
 
 
-    private void setBrickLift(DcMotor motor, DcMotor.Direction direction ) {
+    private void setBrickLift(DcMotor motor, DcMotor.Direction direction) {
         motor.setPower(0);
         motor.setDirection(direction);
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
-       // private void setBrickLift2( DcMotor motor, DcMotor.Direction direction ){
-         //   motor.setPower( 0 );
-           // motor.setDirection( direction );
-            //motor.setZeroPowerBehavior( DcMotor.ZeroPowerBehavior.BRAKE );
-            //motor.setMode( DcMotor.RunMode.RUN_TO_POSITION );
-    }
+}
 
 

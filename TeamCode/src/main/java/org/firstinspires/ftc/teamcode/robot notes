@@ -1,0 +1,41 @@
+autonomous:
+    init()
+        reset/zero gyro
+        set variable for direction to drive side-to-side
+
+    see if it's possible to extend init() to change drive direction variable without having to copy
+    all the other initialization stuff (e.g. gyro reset/zero)
+
+
+
+Hub0 (lower)
+    I2C0 - rear distance (RearDistance)
+    I2C1 - downward color sensor (V2) (DownColor)
+    I2C2 - left distance sensor (LeftDistance)
+    I2C3 -
+    Motor0 - back left (Andymark Orbital 20)
+    Motor1 - front left (Andymark Orbital 20)
+    Motor2 - back right (Andymark Orbital 20)
+    Motor3 - front right (Andymark Orbital 20)
+    Servo0 - Capstone Down (CapstoneDown)
+    Servo1 - Capstone Go (min .05 max .55) (CapstoneGo)
+    Servo2 -
+    Servo3 -
+
+Hub1 (upper)
+    I2C0 - forward color sensor (V3)
+    I2C1 -
+    I2C2 -
+    I2C3 -
+    Motor0 - lift motor (REV HD with 5:1 + 5:1 cartridges)
+    Motor1 -
+    Motor2 -
+    Motor3 -
+    Servo0 - brick claw (brickClaw)
+    Servo1 -
+    Servo2 -
+    Servo3 -
+
+IMU
+    heading, roll, pitch
+    gravity:    x, y, z  (pos for hub1, neg for hub0)

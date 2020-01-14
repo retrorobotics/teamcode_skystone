@@ -91,7 +91,7 @@ public class Teleop_Skystone extends OpMode {
    @Override
    public void init_loop() {
 
-       robot.brickLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+       robot.brickLift.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
        while (robot.brickLift.getCurrentPosition() != 0) {
            //do nothing
        }
@@ -147,7 +147,6 @@ public class Teleop_Skystone extends OpMode {
     * Code to run ONCE when the driver hits PLAY
     */
    @Override
-
    public void start() {}
 
        boolean yLastPass = false;
@@ -167,13 +166,8 @@ public class Teleop_Skystone extends OpMode {
        double maxServoPosition = 1;
        double minServoPosition = 0;
 
-       int armBaseMovement = 2;
-       int armElbowMovement = 2;
-       //   double speedAdj = .90;
-
        //option for slow speed driving
        boolean speedslow = gamepad1.left_bumper || gamepad1.right_bumper;
-       //  speedAdj = speedslow?0.2:0.6;
 
        float gamepad1LeftY = gamepad1.left_stick_y;
        float gamepad1LeftX = gamepad1.left_stick_x;
@@ -257,7 +251,6 @@ public class Teleop_Skystone extends OpMode {
        //code for cascade lift
        //
        int position = robot.brickLift.getCurrentPosition();
-//        int position2 = robot.bricklift2.getCurrentPosition();
 
        //code for running to a set position
        /*
@@ -287,12 +280,12 @@ public class Teleop_Skystone extends OpMode {
        double power_down = -0.1;
        double power_hold = 0;
 
-       //left bumper is DOWN
+       //left bumper moves lift DOWN
        if (gamepad2.left_bumper) {
-         robot.brickLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-           robot.brickLift.setPower(power_down);
+            robot.brickLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.brickLift.setPower(power_down);
        }
-       //right bumper is UP
+       //right bumper moves lift UP
        else if (gamepad2.right_bumper) {
            robot.brickLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
            robot.brickLift.setPower(power_up);
@@ -335,59 +328,21 @@ public class Teleop_Skystone extends OpMode {
 */
              double maxClawServoPosition = .36;
 
-       if (gamepad2RightY > 0) {
-           servoIncrement(robot.Foundation_Pull_1, .02);
-           if (gamepad2RightY < 0) {
-               servoIncrement(robot.Foundation_Pull_1, -.02);
-           }
-
-           if (gamepad2LeftY > 0) {
-               armBasePosition += armBaseMovement;
-           } else if (gamepad2LeftY < 0) {
-               armBasePosition -= armBaseMovement;
-           }
-
-           if (gamepad2RightX > 0) {
-
-           }
-
-       }
-
-       if (gamepad2LeftX > 0) {
-           armElbowPosition -= armElbowMovement;
-       } else if (gamepad2LeftX < 0) {
-           armElbowPosition += armElbowMovement;
-       }
 
        if (gamepad2.y) {
            servoIncrement(robot.brickClaw, 1, 0, 1);
-           //  servoIncrement( robot.Foundation_Pull_2, .02, minServoPosition, maxServoPosition);
        }
 
        if (gamepad2.a) {
            servoIncrement(robot.brickClaw, -1, 0, 1);
-           // servoIncrement( robot.Foundation_Pull_2, -.02, minServoPosition, maxServoPosition);
        }
 
    }
-
-       /*
-       }
-
-       if ( gamepad2.y ){
-           servoIncrement( robot.armAClaw, -.02, minServoPosition, maxClawServoPosition);
-      */
-
 
 
    @Override
    public void stop() {
    }
-
-   void isArmLimitReached(){
-       //return !robot.armBaseLimit.getState();
-   }
-
 
    double scaleInput(double dVal)  {
        double[] scaleArray = { 0.0, 0.03, 0.05, 0.07, 0.10, 0.13, 0.15, 0.21,
